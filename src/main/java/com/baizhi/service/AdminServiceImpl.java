@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
 import com.baizhi.dao.AdminDao;
 import com.baizhi.entity.Admin;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, String> findByUser(Admin admin, String enCode, HttpSession session) {
         Map<String, String> map = new HashMap<>();
         Admin admin1 = adminDao.findByUser(admin.getUsername());

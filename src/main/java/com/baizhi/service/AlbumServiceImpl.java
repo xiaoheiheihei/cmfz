@@ -1,5 +1,7 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
+import com.baizhi.annotation.DelCache;
 import com.baizhi.dao.AlbumDao;
 import com.baizhi.dao.ChapterDao;
 import com.baizhi.entity.Album;
@@ -20,6 +22,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, Object> queryAll(Integer page, Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         Integer records = albumDao.count();
@@ -34,6 +37,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> add(Album album) {
         Map<String, Object> map = new HashMap<>();
         album.setId(UUID.randomUUID().toString().replace("-", ""));
@@ -50,6 +54,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> delete(String[] id) {
         Map<String, Object> map = new HashMap<>();
         Integer delete = albumDao.delete(id);
@@ -62,6 +67,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> update(Album album) {
         Map<String, Object> map = new HashMap<>();
         System.out.println(album);
@@ -77,6 +83,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Integer count() {
         Integer count = albumDao.count();
         return count;
@@ -84,6 +91,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Album findId(String id) {
         Album album = albumDao.findById(id);
         return album;

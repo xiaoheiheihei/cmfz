@@ -1,5 +1,6 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
 import com.baizhi.dao.GuruDao;
 import com.baizhi.entity.Guru;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class GuruServiceImpl implements GuruService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, Object> queryAll(Integer page, Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         Integer count = guruDao.count();

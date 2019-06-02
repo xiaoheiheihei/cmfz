@@ -2,6 +2,8 @@ package com.baizhi.service;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
+import com.baizhi.annotation.AddCache;
+import com.baizhi.annotation.DelCache;
 import com.baizhi.dao.UserDao;
 import com.baizhi.entity.User;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, Object> queryAll(Integer page, Integer rows) {
         Map<String, Object> map = new HashMap<>();
         Integer records = userDao.count();
@@ -52,6 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> update(User user) {
         User user1 = userDao.findById(user.getId());
         System.out.println(user1);
@@ -72,6 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Integer count() {
         Integer count = userDao.count();
         return count;
@@ -79,17 +84,20 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public User findById(String id) {
         return null;
     }
 
     @Override
+    @AddCache
     public Integer getCount(String create_date) {
         Integer count = userDao.getCount(create_date);
         return count;
     }
 
     @Override
+    @AddCache
     public void export(HttpSession session, HttpServletResponse response) throws Exception {
         ServletOutputStream outputStream = null;
         List<User> list = userDao.findAll();
@@ -114,12 +122,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @AddCache
     public String[] getProvince() {
         String[] province = userDao.getProvince();
         return province;
     }
 
     @Override
+    @AddCache
     public Integer getProvince1(String province) {
         Integer count = userDao.getProvince1(province);
         return count;

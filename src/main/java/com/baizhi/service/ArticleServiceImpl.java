@@ -1,5 +1,7 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
+import com.baizhi.annotation.DelCache;
 import com.baizhi.dao.ArticleDao;
 import com.baizhi.entity.Article;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, Object> queryAll(Integer page, Integer rows) {
         Map<String, Object> map = new HashMap<>();
         Integer records = articleDao.count();
@@ -31,6 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> add(Article article) {
         Map<String, Object> map = new HashMap<>();
         article.setId(UUID.randomUUID().toString().replace("_", ""));
@@ -46,6 +50,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> delete(String[] id) {
         Map<String, Object> map = new HashMap<>();
         Integer delete = articleDao.delete(id);
@@ -58,6 +63,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> update(Article article) {
         Map<String, Object> map = new HashMap<>();
         Integer update = articleDao.update(article);
@@ -76,6 +82,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    @AddCache
     public Article findById(String id) {
         Article article = articleDao.findById(id);
         return article;

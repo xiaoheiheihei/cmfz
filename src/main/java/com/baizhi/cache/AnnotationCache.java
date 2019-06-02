@@ -18,7 +18,7 @@ public class AnnotationCache {
 
     @Around("@annotation(com.baizhi.annotation.AddCache)")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        Object proceed;
+        Object proceed = null;
         StringBuffer sb = new StringBuffer();
         String className = proceedingJoinPoint.getTarget().getClass().getName();
         String methodName = proceedingJoinPoint.getSignature().getName();
@@ -29,9 +29,10 @@ public class AnnotationCache {
         }
         String s = sb.toString();
         HashOperations hashOperations = redisTemplate.opsForHash();
-        Boolean aBoolean = hashOperations.hasKey(className, methodName);
+        Boolean aBoolean = hashOperations.hasKey(className, s);
+        System.out.println(aBoolean);
         if (aBoolean) {
-            proceed = hashOperations.get(className, methodName);
+            proceed = hashOperations.get(className, s);
         } else {
             proceed = proceedingJoinPoint.proceed();
             hashOperations.put(className, s, proceed);

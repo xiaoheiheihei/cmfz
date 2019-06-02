@@ -1,5 +1,7 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
+import com.baizhi.annotation.DelCache;
 import com.baizhi.dao.ChapterDao;
 import com.baizhi.entity.Chapter;
 import org.apache.commons.io.FileUtils;
@@ -28,6 +30,7 @@ public class ChapterServiceImpl implements ChapterService {
 
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     @Override
+    @AddCache
     public Map<String, Object> queryAll(Integer page, Integer pageSize, String album_id) {
         Map<String, Object> map = new HashMap<>();
         Integer records = chapterDao.count(album_id);
@@ -42,6 +45,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> add(Chapter chapter, String album_id) {
         Map<String, Object> map = new HashMap<>();
         chapter.setAlbum_id(album_id);
@@ -57,6 +61,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> delete(String[] id) {
         Map<String, Object> map = new HashMap<>();
         Integer delete = chapterDao.delete(id);
@@ -70,6 +75,7 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> update(Chapter chapter) {
         Map<String, Object> map = new HashMap<>();
         Integer update = chapterDao.update(chapter);
@@ -83,12 +89,14 @@ public class ChapterServiceImpl implements ChapterService {
     }
 
     @Override
+    @AddCache
     public Integer count(String album_id) {
         Integer count = chapterDao.count(album_id);
         return count;
     }
 
     @Override
+    @AddCache
     public Chapter findById(String id) {
         Chapter chapter = chapterDao.findById(id);
         return chapter;

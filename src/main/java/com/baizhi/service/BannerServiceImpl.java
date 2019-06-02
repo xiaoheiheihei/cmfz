@@ -1,5 +1,7 @@
 package com.baizhi.service;
 
+import com.baizhi.annotation.AddCache;
+import com.baizhi.annotation.DelCache;
 import com.baizhi.dao.BannerDao;
 import com.baizhi.entity.Banner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ public class BannerServiceImpl implements BannerService {
     BannerDao bannerDao;
 
     @Override
+    @AddCache
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public Map<String, Object> queryAll(Integer page, Integer pageSize) {
         if (page == null) {
@@ -41,6 +44,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @AddCache
     public Banner findById(String id) {
 
         Banner banner = bannerDao.findById(id);
@@ -48,6 +52,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> update(Banner banner) {
         Map<String, Object> map = new HashMap<>();
         Integer update = bannerDao.update(banner);
@@ -61,6 +66,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> delete(String[] id) {
         Map<String, Object> map = new HashMap<>();
         Integer delete = bannerDao.delete(id);
@@ -73,6 +79,7 @@ public class BannerServiceImpl implements BannerService {
     }
 
     @Override
+    @DelCache
     public Map<String, Object> add(Banner banner) {
         Map<String, Object> map = new HashMap<>();
         banner.setId(UUID.randomUUID().toString().replace("-", ""));
