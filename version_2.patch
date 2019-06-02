@@ -1,0 +1,15 @@
+Index: src/main/java/com/baizhi/GitTestApplication.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/baizhi/GitTestApplication.java	(date 1559293743000)
++++ src/main/java/com/baizhi/GitTestApplication.java	(date 1559293882759)
+@@ -9,6 +9,7 @@
+     public static void main(String[] args) {
+         SpringApplication.run(GitTestApplication.class, args);
+         System.out.println(1111);
++        System.out.println("hello word");
+     }
+ 
+ }

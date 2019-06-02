@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.BannerDao">
+    <sql id="ban">
+        id,title,img_pic,status,create_date,description
+    </sql>
+    <select id="queryAll" resultType="Banner">
+        select
+        <include refid="ban"/>
+        from banner limit ${(page-1)*pageSize},#{pageSize}
+    </select>
+    <select id="findById" resultType="Banner">
+        select
+        <include refid="ban"/>
+        from banner where id=#{id}
+    </select>
+    <insert id="add" parameterType="Banner">
+        insert into banner values (#{id},#{title},#{img_pic},#{status},#{create_date},#{description})
+    </insert>
+    <update id="update" parameterType="Banner">
+        update banner
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="img_pic!=null">
+                img_pic=#{img_pic},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="create_date.getTime()!=0">
+                create_date=#{create_date},
+            </if>
+            <if test="description!=null">
+                description=#{description}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from banner where id in
+        <foreach collection="array" open="(" separator="," item="id" close=")">#{id}</foreach>
+    </delete>
+    <select id="count" resultType="Integer">
+        select count(*) from banner
+    </select>
+
+</mapper>

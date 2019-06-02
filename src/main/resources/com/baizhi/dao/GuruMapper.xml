@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.GuruDao">
+    <sql id="guru">
+        id,dharma,head_pic,status,create_date
+    </sql>
+    <select id="findAll" resultType="Guru">
+        select
+        <include refid="guru"/>
+        from guru
+    </select>
+    <select id="queryAll" resultType="Guru">
+        select
+        <include refid="guru"/>
+        from guru limit #{start},#{pageSize}
+    </select>
+    <select id="findById" resultType="Guru">
+        select
+        <include refid="guru"/>
+        from guru where id=#{id}
+    </select>
+    <insert id="add" parameterType="Guru">
+        insert into guru values (#{id},#{phone_num},#{password},#{salt},#{head_pic},#{name},#{dharma},#{sex},#{province},#{sign},#{status},#{crete_date},#{guru_id})
+    </insert>
+    <update id="update" parameterType="Guru">
+        update guru
+        <set>
+            <if test="phone_num!=null">
+                phone_num=#{phone_num},
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="head_pic!=null">
+                head_pic=#{head_pic},
+            </if>
+            <if test="name!=null">
+                name=#{name},
+            </if>
+
+            <if test="dharma!=null">
+                dharma=#{dharma},
+            </if>
+            <if test="sex!=null">
+                sex=#{sex},
+            </if>
+            <if test="province!=null">
+                province=#{province},
+            </if>
+            <if test="sign!=0">
+                sign=#{sign},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+            <if test="create_date.getTime()!=0">
+                create_date=#{create_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from guru where id in
+        <foreach collection="array" open="(" separator="," item="id" close=")">#{id}</foreach>
+    </delete>
+    <select id="count" resultType="Integer">
+        select count(1) from guru
+    </select>
+
+</mapper>

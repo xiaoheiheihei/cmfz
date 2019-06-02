@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.ChapterDao">
+    <sql id="chap">
+        id,title,size,duration,audio_path,album_id,upload_date
+    </sql>
+    <select id="queryAll" resultType="Chapter">
+        select e.* from
+        (select
+        <include refid="chap"/>
+        from chapter where album_id=#{album_id}) e limit #{start},#{pageSize}
+    </select>
+    <select id="findById" resultType="Chapter">
+        select
+        <include refid="chap"/>
+        from chapter where id=#{id}
+    </select>
+    <insert id="add" parameterType="Chapter">
+        insert into chapter values (#{id},#{title},#{size},#{duration},#{audio_path},#{album_id},#{upload_date})
+    </insert>
+    <update id="update" parameterType="Chapter">
+        update chapter
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="audio_path!=null">
+                audio_path=#{audio_path},
+            </if>
+            <if test="album_id!=null">
+                album_id=#{album_id},
+            </if>
+            <if test="upload_date.getTime()!=0">
+                upload_date=#{upload_date}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from chapter where id in
+        <foreach collection="array" open="(" separator="," item="id" close=")">#{id}</foreach>
+    </delete>
+    <select id="count" resultType="Integer">
+        select count(1) from chapter where album_id=#{album_id}
+    </select>
+
+</mapper>

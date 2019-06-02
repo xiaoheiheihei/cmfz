@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.baizhi.dao.AlbumDao">
+    <sql id="abl">
+        id,title,score,author,broadcast,count,brief,create_date,cover_pic,status,upload_date
+    </sql>
+    <select id="queryAll" resultType="Album">
+        select
+        <include refid="abl"/>
+        from album limit #{start},#{pageSize}
+    </select>
+    <select id="findById" resultType="Album">
+        select
+        <include refid="abl"/>
+        from album where id=#{id}
+    </select>
+    <insert id="add" parameterType="Album">
+        insert into album values (#{id},#{title},#{score},#{author},#{broadcast},#{count},#{brief},#{create_date},#{cover_pic},#{upload_date},#{status})
+    </insert>
+    <update id="update" parameterType="Album">
+        update album
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="score!=0.0">
+                score=#{score},
+            </if>
+            <if test="author!=null">
+                author=#{author},
+            </if>
+            <if test="create_date.getTime()!=0">
+                create_date=#{create_date},
+            </if>
+            <if test="broadcast!=null">
+                broadcast=#{broadcast},
+            </if>
+            <if test="brief!=null">
+                brief=#{brief},
+            </if>
+            <if test="cover_pic!=null">
+                cover_pic=#{cover_pic},
+            </if>
+            <if test="upload_date.getTime()!=0">
+                upload_date=#{upload_date},
+            </if>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from album where id in
+        <foreach collection="array" open="(" separator="," item="id" close=")">#{id}</foreach>
+    </delete>
+    <select id="count" resultType="Integer">
+        select count(1) from Album
+    </select>
+
+</mapper>

@@ -1,0 +1,14 @@
+Index: src/main/java/com/baizhi/test/TestGit.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/com/baizhi/test/TestGit.java	(revision bd42d4d69187f4451909a4a2bf4e16fe35e1cff5)
++++ src/main/java/com/baizhi/test/TestGit.java	(date 1559301583014)
+@@ -6,5 +6,6 @@
+         System.out.println("这是一个测试类");
+         System.out.println("是的");
+         System.out.println("不是的");
++        System.out.println(11111);
+     }
+ }
