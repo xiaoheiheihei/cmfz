@@ -2,8 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.baizhi.dao.AdminDao">
+    <resultMap id="rmpa" type="Admin">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <collection property="roles" ofType="Role">
+            <id column="rid" property="id"></id>
+            <result column="name" property="name"></result>
+        </collection>
+    </resultMap>
     <select id="findByUser" resultType="Admin">
        select id,username,password from admin where username=#{username}
+    </select>
+    <select id="findByUsername" resultType="Admin">
+        select id,username,password from admin where username=#{username}
+    </select>
+    <select id="findById" resultMap="rmpa">
+         select a.id as id,a.username as username,a.password as password ,r.name as name,r.id as rid from
+        role r join user_role ur on r.id=ur.r_id
+        join admin a on ur.u_id=a.id
+        where a.id=#{id}
     </select>
 
 </mapper>

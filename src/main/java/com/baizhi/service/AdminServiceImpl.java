@@ -44,4 +44,16 @@ public class AdminServiceImpl implements AdminService {
         return map;
     }
 
+    @Override
+    public Admin findByUsername(String username) {
+        Admin admin = adminDao.findByUser(username);
+        return admin;
+    }
+
+    @Override
+    public Admin findById(String id) {
+        Admin admin = adminDao.findById(id);
+        return admin;
+    }
+
 }

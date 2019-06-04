@@ -4,6 +4,15 @@ import com.baizhi.CmfzApplication;
 import com.baizhi.dao.AdminDao;
 import com.baizhi.dao.UserDao;
 import com.baizhi.service.UserService;
+import com.baizhi.shiro.realm.MyCmfzRealm;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +51,27 @@ public class TestCmfz {
         System.out.println(sdf.format(new Date(d.getTime() - (long) 24 * 60 * 60 * 1000)));
 
 
+    }
+
+    @Test
+    public void test() {
+        Realm realm = new MyCmfzRealm();
+        /* HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher();*/
+        /* credentialsMatcher.setHashAlgorithmName("Md5");*/
+        /* credentialsMatcher.setHashIterations(1024);*/
+        /* ((MyCmfzRealm) realm).setCredentialsMatcher(credentialsMatcher);*/
+        SecurityManager securityManager = new DefaultWebSecurityManager(realm);
+        SecurityUtils.setSecurityManager(securityManager);
+        Subject subject = SecurityUtils.getSubject();
+        AuthenticationToken token = new UsernamePasswordToken("zhangsan", "111111");
+        try {
+            subject.login(token);
+            boolean aSuper = subject.hasRole("super");
+            System.out.println(aSuper);
+            boolean permitted = subject.isPermitted("user:add");
+            System.out.println(permitted);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        }
     }
 }
